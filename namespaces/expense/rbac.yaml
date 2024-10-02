@@ -37,7 +37,7 @@ rules:
   #
   # at the HTTP level, the name of the resource for accessing Secret
   #objects in "secrets"
-  resources: ["secret","persistanceVolumes","nodes"]
+  resources: ["secrets","persistancevolumes","nodes"]
   verbs: ["get","watch","list"]
 
 ---
@@ -49,7 +49,7 @@ metadata:
 subjects:
 - kind: User
   name: harish #Name is case sensitive
-- apiGroups: rbac.authorization.k8s.io
+  apiGroup: rbac.authorization.k8s.io
 roleRef:
   kind: ClusterRole
   name: expense-cluster-reader
