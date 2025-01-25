@@ -1,19 +1,20 @@
+
 apiVersion: v1
 data:
   mapRoles: |
     - groups:
       - system:bootstrappers
       - system:nodes
-      rolearn: arn:aws:iam::730335449147:role/eksctl-expense-1-nodegroup-spot-NodeInstanceRole-9xsdcCOcxdHX
+      rolearn: arn:aws:iam::730335449147:role/eksctl-expense-1-nodegroup-spot-NodeInstanceRole-x53FJRVzJ6KD
       username: system:node:{{EC2PrivateDNSName}}
-    mapUsers: |
+  mapUsers: |
     - groups:
-      - expense-pod-reader
+      - system:mastersexpense-pod-reader-role
       userarn: arn:aws:iam::730335449147:user/harish
       username: harish
 kind: ConfigMap
 metadata:
-  creationTimestamp: "2024-10-02T05:04:29Z"
+  creationTimestamp: "2025-01-25T14:14:00Z"
   name: aws-auth
   namespace: kube-system
-  uid: 2c588f09-e535-4e99-9045-5c7d2e727493
+  uid: 34e2effb-2213-4446-b35d-cd9a4ab383b0
