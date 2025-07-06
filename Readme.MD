@@ -216,6 +216,9 @@ $kubectl get nodes
 $kubectl get secrets
 $kubectl get pv
 $kubectl get pvc   --> this is in default namespace, so not accessible.
+kubectl get pvc
+Error from server (Forbidden): persistentvolumeclaims is forbidden: User "harish" cannot list resource "persistentvolumeclaims" in API group "" in the namespace "default"
+
 
 namespace is true, resource is namespace level
 namespace is false, then resource is cluster level.
@@ -227,48 +230,6 @@ namespace is false, then resource is cluster level.
 
 Note: In a cluster, there are multiple namespaces. if a user gets one cluster access, then he can able to access all its namespaces.
 
-
-# Additional steps:
-Create and attach ClusterDecribe permmision in AWS IAM harish user.
-o create eks:DescribeCluster permission for an IAM user in AWS, you need to create and attach an IAM policy with that permission.
-
-Here’s a step-by-step guide using both AWS Console and AWS CLI:
-
-✅ Option 1: Using the AWS Console
-Sign in to the AWS Management Console as a user with permission to manage IAM.
-
-Navigate to IAM > Policies.
-
-Click Create policy.
-
-Choose the JSON tab and paste the following:
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": [
-        "eks:DescribeCluster"
-      ],
-      "Resource": "arn:aws:eks:us-east-1:484907532817:cluster/expense"
-    }
-  ]
-}
-
-Click Next: Tags (optional), then Next: Review.
-
-Name it something like: EKSDescribeClusterPolicy
-
-Click Create policy.
-
-Then:
-Go to IAM > Users > harish.
-
-Click the Permissions tab.
-
-Click Add permissions > Attach policies directly.
-
-Search for EKSDescribeClusterPolicy, select it, and click Next > Add permissions.
 
 
 
