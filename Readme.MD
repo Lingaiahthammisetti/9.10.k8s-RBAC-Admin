@@ -34,7 +34,7 @@ Now We create namespace called expense
 
 First create namespace expense.
 
-# k8-admin\namespace\expense\expense.yaml
+* k8-admin\namespace\expense\expense.yaml
 kind: Namespace
 apiVersion: v1
 metadata:
@@ -43,7 +43,7 @@ metadata:
     name: expense
     environment: dev
     
-# k8-admin\namespace\expense\rbac.yaml
+* k8-admin\namespace\expense\rbac.yaml
 First we will give read access to pod
 
 creating a Role called expense-pod-reader i.e Role
@@ -68,12 +68,12 @@ metadata:
   name: expense-pod-reader-rolebinding
   namespace: expense
 subjects:
-# You can specify more than one "subject"
+* You can specify more than one "subject"
 - kind: User
   name: harish #"name" is case sensitive
   apiGroup: rbac.authorization.k8s.io
 roleRef:
- # 'roleRef' specifies the binding to a Role/ClusterRole
+ * 'roleRef' specifies the binding to a Role/ClusterRole
  kind: Role #this must be Role or ClusterRole
  name: expense-pod-reader-role #this must match the name of the Role or ClusterRole you wish
  apiGroup: rbac.authorization.k8s.io
@@ -84,7 +84,7 @@ EKS should connect to AWS IAM
 First we need to Authentication for EKS.
 https://docs.aws.amazon.com/eks/latest/userguide/auth-configmap.html
 
-# k8-admin\namespace\expense\aws-auth.yaml
+* k8-admin\namespace\expense\aws-auth.yaml
 apiVersion: v1
 data:
   mapRoles: |

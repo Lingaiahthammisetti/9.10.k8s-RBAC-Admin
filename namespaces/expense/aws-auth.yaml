@@ -13,10 +13,10 @@ data:
       username: harish
 kind: ConfigMap
 metadata:
-  creationTimestamp: "2025-07-01T10:43:56Z"
+  #creationTimestamp: "2025-07-01T10:43:56Z"
   name: aws-auth
   namespace: kube-system
-  uid: fd91025d-2af9-4d7e-8955-89e740a40c47
+  #uid: fd91025d-2af9-4d7e-8955-89e740a40c47
 
 
 # apiVersion: v1
