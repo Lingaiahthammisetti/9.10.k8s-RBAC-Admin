@@ -11,30 +11,10 @@ data:
       - expense-pod-reader-role
       userarn: arn:aws:iam::484907532817:user/harish
       username: harish
+
 kind: ConfigMap
 metadata:
-  #creationTimestamp: "2025-07-01T10:43:56Z"
+  creationTimestamp: "2025-07-06T18:45:14Z"
   name: aws-auth
   namespace: kube-system
-  #uid: fd91025d-2af9-4d7e-8955-89e740a40c47
-
-
-# apiVersion: v1
-# data:
-#   mapRoles: |
-#     - groups:
-#       - system:bootstrappers
-#       - system:nodes
-#       rolearn: arn:aws:iam::730335449147:role/eksctl-expense-1-nodegroup-spot-NodeInstanceRole-x53FJRVzJ6KD
-#       username: system:node:{{EC2PrivateDNSName}}
-#   mapUsers: |
-#     - groups:
-#       - expense-pod-reader-role
-#       userarn: arn:aws:iam::730335449147:user/harish
-#       username: harish
-# kind: ConfigMap
-# metadata:
-#   creationTimestamp: "2025-01-25T14:14:00Z"
-#   name: aws-auth
-#   namespace: kube-system
-#   uid: 34e2effb-2213-4446-b35d-cd9a4ab383b0
+  uid: e970012f-f767-4c95-b8e3-771de85a96c6

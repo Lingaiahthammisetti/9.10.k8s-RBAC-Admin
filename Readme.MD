@@ -100,13 +100,22 @@ data:
       username: harish
 kind: ConfigMap
 metadata:
+  name: aws-auth
+  namespace: kube-system
+
+kubectl get ns -n kube-system
+
+kubectl get configmap aws-auth -n kube-system
+kubectl get configmap aws-auth -n kube-system -o yaml
+
+kind: ConfigMap
+metadata:
   creationTimestamp: "2025-01-25T14:14:00Z"
   name: aws-auth
   namespace: kube-system
   uid: 34e2effb-2213-4446-b35d-cd9a4ab383b0
 
-kubectl get configmap aws-auth -n kube-system
-kubectl get configmap aws-auth -n kube-system -o yaml
+
 
 apiVersion: v1
 data:
