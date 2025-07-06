@@ -1,5 +1,10 @@
-# What is the difference between Role, RoleBinding, ClusterRole, and ClusterRoleBinding in terms of namespace?
+# Admin will create a Role for Harish, attach that Role to Harish using RoleBinding. He can be authenticated to AWS using AWS IAM aws configure on his project team like expense. Admin will give cluster access to Harish with Cluster, ClusterBinding.
 
+For AWS authencation, We use AWS IAM.
+For EKS authentication, We use same AWS IAM
+for Authorization(getting specific resource access), We use Role,RoleBinding, Cluster, ClusterBinding.
+
+# What is the difference between Role, RoleBinding, ClusterRole, and ClusterRoleBinding in terms of namespace?
 Role: Namespace-level resource (namespace = true)
 RoleBinding: Namespace-level resource (namespace = true)
 ClusterRole: Cluster-level resource (namespace = false)
@@ -7,7 +12,26 @@ ClusterRoleBinding: Cluster-level resource (namespace = false)
 
 
 # What are the steps to create and use RBAC resources in Kubernetes?
-We will follow structure for project.
+  * We will follow structure for project.
+
+We will provide cluster describe access to Harish by create a policy IN IAM
+
+IAM--> Policies-->Create Policy -->service:eks --> Accesss Level -->Read--> Describe
+ Cluster
+
+--> Specific Cluster 
+
+Resource region: us-east-1
+Resource Cluster name:expense-1
+Resource ARN: automcaticay selected for expense-1
+
+Policy Name: ExpenseEKSClusterDescribe
+
+Then Go to Users--> create User:harish --> attach policies directly-->ExpenseEKSClusterDescribe--> add.
+
+Now We create namespace called expense
+
+
 First create namespace expense.
 
 # k8-admin\namespace\expense\expense.yaml
@@ -19,14 +43,11 @@ metadata:
     name: expense
     environment: dev
     
-
 # k8-admin\namespace\expense\rbac.yaml
-
 First we will give read access to pod
 
 creating a Role called expense-pod-reader i.e Role
 attaching this role to someone like harish   i.e RoleBinding
-
 
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
@@ -57,13 +78,11 @@ roleRef:
  name: expense-pod-reader-role #this must match the name of the Role or ClusterRole you wish
  apiGroup: rbac.authorization.k8s.io
 
-
 Note: How EKS knows to check AWS for Role and RoleBinding Authorization.
 EKS should connect to AWS IAM
 
 First we need to Authentication for EKS.
 https://docs.aws.amazon.com/eks/latest/userguide/auth-configmap.html
-
 
 # k8-admin\namespace\expense\aws-auth.yaml
 apiVersion: v1
@@ -86,15 +105,8 @@ metadata:
   namespace: kube-system
   uid: 34e2effb-2213-4446-b35d-cd9a4ab383b0
 
-
-
-
 kubectl get configmap aws-auth -n kube-system
-
-
 kubectl get configmap aws-auth -n kube-system -o yaml
-
-
 
 apiVersion: v1
 data:
@@ -116,11 +128,9 @@ metadata:
   namespace: kube-system
   uid: 34e2effb-2213-4446-b35d-cd9a4ab383b0
 
-
 To replace specific user arn, go to AWS IAM --> users-->harish --> get harish arn value
 
 Now, Admin will email project team that namespace and access is given. Then
-
 
 The project team has their own server like expense servers like creating ec2 instance.
 Login into ec2-user  as harish user.
@@ -133,52 +143,13 @@ Region:
 He can check his login status:
 $aws sts get-caller-identity
 
-Create and attach ClusterDecribe permmision in AWS IAM harish user.
-o create eks:DescribeCluster permission for an IAM user in AWS, you need to create and attach an IAM policy with that permission.
 
-Here’s a step-by-step guide using both AWS Console and AWS CLI:
-
-✅ Option 1: Using the AWS Console
-Sign in to the AWS Management Console as a user with permission to manage IAM.
-
-Navigate to IAM > Policies.
-
-Click Create policy.
-
-Choose the JSON tab and paste the following:
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": [
-        "eks:DescribeCluster"
-      ],
-      "Resource": "arn:aws:eks:us-east-1:484907532817:cluster/expense"
-    }
-  ]
-}
-
-Click Next: Tags (optional), then Next: Review.
-
-Name it something like: EKSDescribeClusterPolicy
-
-Click Create policy.
-
-Then:
-Go to IAM > Users > harish.
-
-Click the Permissions tab.
-
-Click Add permissions > Attach policies directly.
-
-Search for EKSDescribeClusterPolicy, select it, and click Next > Add permissions.
-
-
-We have cluster describe access, so he can get kubeconfig file access.
+he has cluster describe access, so he can get kubeconfig file access.
 $aws eks update-kubeconfig --region us-east-1 --name expense
 
 kubectl get nodes
+
+We didn't install kubectl nginx server of harish. We will install now.
 
 need to install kubectl here.
 ---------------------------------------
@@ -248,6 +219,47 @@ namespace is false, then resource is cluster level.
 Note: In a cluster, there are multiple namespaces. if a user gets one cluster access, then he can able to access all its namespaces.
 
 
+# Additional steps:
+Create and attach ClusterDecribe permmision in AWS IAM harish user.
+o create eks:DescribeCluster permission for an IAM user in AWS, you need to create and attach an IAM policy with that permission.
+
+Here’s a step-by-step guide using both AWS Console and AWS CLI:
+
+✅ Option 1: Using the AWS Console
+Sign in to the AWS Management Console as a user with permission to manage IAM.
+
+Navigate to IAM > Policies.
+
+Click Create policy.
+
+Choose the JSON tab and paste the following:
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "eks:DescribeCluster"
+      ],
+      "Resource": "arn:aws:eks:us-east-1:484907532817:cluster/expense"
+    }
+  ]
+}
+
+Click Next: Tags (optional), then Next: Review.
+
+Name it something like: EKSDescribeClusterPolicy
+
+Click Create policy.
+
+Then:
+Go to IAM > Users > harish.
+
+Click the Permissions tab.
+
+Click Add permissions > Attach policies directly.
+
+Search for EKSDescribeClusterPolicy, select it, and click Next > Add permissions.
 
 
 
