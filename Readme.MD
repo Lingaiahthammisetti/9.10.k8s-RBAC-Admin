@@ -1,17 +1,17 @@
-# Admin will create a Role for Harish, attach that Role to Harish using RoleBinding. He can be authenticated to AWS using AWS IAM aws configure on his project team like expense. Admin will give cluster access to Harish with Cluster, ClusterBinding.
+* Admin will create a Role for Harish, attach that Role to Harish using RoleBinding. He can be authenticated to AWS using AWS IAM aws configure on his project team like expense. Admin will give cluster access to Harish with Cluster, ClusterBinding.
 
 For AWS authencation, We use AWS IAM.
 For EKS authentication, We use same AWS IAM
 for Authorization(getting specific resource access), We use Role,RoleBinding, Cluster, ClusterBinding.
 
-# What is the difference between Role, RoleBinding, ClusterRole, and ClusterRoleBinding in terms of namespace?
+* What is the difference between Role, RoleBinding, ClusterRole, and ClusterRoleBinding in terms of namespace?
 Role: Namespace-level resource (namespace = true)
 RoleBinding: Namespace-level resource (namespace = true)
 ClusterRole: Cluster-level resource (namespace = false)
 ClusterRoleBinding: Cluster-level resource (namespace = false)
 
 
-# What are the steps to create and use RBAC resources in Kubernetes?
+* What are the steps to create and use RBAC resources in Kubernetes?
   * We will follow structure for project.
 
 We will provide cluster describe access to Harish by create a policy IN IAM
